@@ -5,7 +5,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 group = 'com.github.RomanTsarou'
-version = '0.0.2'
+version = '0.0.3'
 
 android {
     compileSdkVersion 28
