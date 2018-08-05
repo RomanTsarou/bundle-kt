@@ -27,6 +27,19 @@ class ArgLong {
     }
 }
 
+/**
+ * <pre>
+ * Init var:
+ * companion object {
+ *      var Bundle.arg1 by ArgInt()
+ * }
+ * Set value:
+ *  override fun onSaveInstanceState(outState: Bundle?) {
+ *      outState.arg1=123
+ * }
+ * </pre>
+ *
+ */
 class ArgInt {
     operator fun getValue(thisRef: Bundle, p: KProperty<*>): Int {
         return thisRef.getInt(p.name)
