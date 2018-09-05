@@ -4,8 +4,8 @@
 
 Easy use Bundle, Intent, SharedPreferences in Kotlin
 
-####Use:
-```
+## Use:
+```kotlin
     companion object {
         var SharedPreferences.userName by SharedPreferencesString()
     }
