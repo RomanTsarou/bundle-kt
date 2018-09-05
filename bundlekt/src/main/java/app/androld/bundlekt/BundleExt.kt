@@ -20,6 +20,16 @@ class ArgString(private val defaultValue: String? = null) {
 }
 
 class ArgStringArray {
+    operator fun getValue(thisRef: Bundle, p: KProperty<*>): Array<String>? {
+        return thisRef.getStringArray(p.name)
+    }
+
+    operator fun setValue(thisRef: Bundle, p: KProperty<*>, v: Array<String>?) {
+        thisRef.putStringArray(p.name, v)
+    }
+}
+
+class ArgStringNullableArray {
     operator fun getValue(thisRef: Bundle, p: KProperty<*>): Array<String?>? {
         return thisRef.getStringArray(p.name)
     }
@@ -30,11 +40,11 @@ class ArgStringArray {
 }
 
 class ArgStringArrayList {
-    operator fun getValue(thisRef: Bundle, p: KProperty<*>): ArrayList<String?>? {
+    operator fun getValue(thisRef: Bundle, p: KProperty<*>): ArrayList<String>? {
         return thisRef.getStringArrayList(p.name)
     }
 
-    operator fun setValue(thisRef: Bundle, p: KProperty<*>, v: ArrayList<String?>?) {
+    operator fun setValue(thisRef: Bundle, p: KProperty<*>, v: ArrayList<String>?) {
         thisRef.putStringArrayList(p.name, v)
     }
 }
@@ -50,6 +60,16 @@ class ArgCharSequence(private val defaultValue: CharSequence? = null) {
 }
 
 class ArgCharSequenceArray {
+    operator fun getValue(thisRef: Bundle, p: KProperty<*>): Array<CharSequence>? {
+        return thisRef.getCharSequenceArray(p.name)
+    }
+
+    operator fun setValue(thisRef: Bundle, p: KProperty<*>, v: Array<CharSequence>?) {
+        thisRef.putCharSequenceArray(p.name, v)
+    }
+}
+
+class ArgCharSequenceNullableArray {
     operator fun getValue(thisRef: Bundle, p: KProperty<*>): Array<CharSequence?>? {
         return thisRef.getCharSequenceArray(p.name)
     }
@@ -60,11 +80,11 @@ class ArgCharSequenceArray {
 }
 
 class ArgCharSequenceArrayList {
-    operator fun getValue(thisRef: Bundle, p: KProperty<*>): ArrayList<CharSequence?>? {
+    operator fun getValue(thisRef: Bundle, p: KProperty<*>): ArrayList<CharSequence>? {
         return thisRef.getCharSequenceArrayList(p.name)
     }
 
-    operator fun setValue(thisRef: Bundle, p: KProperty<*>, v: ArrayList<CharSequence?>?) {
+    operator fun setValue(thisRef: Bundle, p: KProperty<*>, v: ArrayList<CharSequence>?) {
         thisRef.putCharSequenceArrayList(p.name, v)
     }
 }
@@ -250,33 +270,44 @@ class ArgParcelable<T : Parcelable> {
 }
 
 class ArgParcelableArrayList<T : Parcelable> {
-    operator fun getValue(thisRef: Bundle, p: KProperty<*>): ArrayList<T?>? {
+    operator fun getValue(thisRef: Bundle, p: KProperty<*>): ArrayList<T>? {
         return thisRef.getParcelableArrayList(p.name)
     }
 
-    operator fun setValue(thisRef: Bundle, p: KProperty<*>, v: ArrayList<T?>?) {
+    operator fun setValue(thisRef: Bundle, p: KProperty<*>, v: ArrayList<T>?) {
         thisRef.putParcelableArrayList(p.name, v)
     }
 }
 
 class ArgParcelableArray<T : Parcelable> {
-    operator fun getValue(thisRef: Bundle, p: KProperty<*>): Array<T?>? {
+    operator fun getValue(thisRef: Bundle, p: KProperty<*>): Array<T>? {
         @Suppress("UNCHECKED_CAST")
-        return thisRef.getParcelableArray(p.name) as Array<T?>?
+        return thisRef.getParcelableArray(p.name) as Array<T>?
     }
 
-    operator fun setValue(thisRef: Bundle, p: KProperty<*>, v: Array<T?>?) {
+    operator fun setValue(thisRef: Bundle, p: KProperty<*>, v: Array<T>?) {
+        thisRef.putParcelableArray(p.name, v)
+    }
+}
+
+class ArgParcelableNullableArray<T : Parcelable?> {
+    operator fun getValue(thisRef: Bundle, p: KProperty<*>): Array<T>? {
+        @Suppress("UNCHECKED_CAST")
+        return thisRef.getParcelableArray(p.name) as Array<T>?
+    }
+
+    operator fun setValue(thisRef: Bundle, p: KProperty<*>, v: Array<T>?) {
         thisRef.putParcelableArray(p.name, v)
     }
 }
 
 class ArgParcelableSparseArray<T : Parcelable> {
-    operator fun getValue(thisRef: Bundle, p: KProperty<*>): SparseArray<T?>? {
+    operator fun getValue(thisRef: Bundle, p: KProperty<*>): SparseArray<T>? {
         @Suppress("UNCHECKED_CAST")
         return thisRef.getSparseParcelableArray<T>(p.name)
     }
 
-    operator fun setValue(thisRef: Bundle, p: KProperty<*>, v: SparseArray<T?>?) {
+    operator fun setValue(thisRef: Bundle, p: KProperty<*>, v: SparseArray<T>?) {
         thisRef.putSparseParcelableArray(p.name, v)
     }
 }

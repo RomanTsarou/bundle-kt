@@ -146,6 +146,16 @@ class ExtraStringArray {
     }
 }
 
+class ExtraStringNullableArray {
+    operator fun getValue(thisRef: Intent, p: KProperty<*>): Array<String?>? {
+        return thisRef.getStringArrayExtra(p.name)
+    }
+
+    operator fun setValue(thisRef: Intent, p: KProperty<*>, v: Array<String?>?) {
+        thisRef.putExtra(p.name, v)
+    }
+}
+
 class ExtraStringArrayList {
     operator fun getValue(thisRef: Intent, p: KProperty<*>): ArrayList<String>? {
         return thisRef.getStringArrayListExtra(p.name)
@@ -172,6 +182,16 @@ class ExtraCharSequenceArray {
     }
 
     operator fun setValue(thisRef: Intent, p: KProperty<*>, v: Array<CharSequence>?) {
+        thisRef.putExtra(p.name, v)
+    }
+}
+
+class ExtraCharSequenceNullableArray {
+    operator fun getValue(thisRef: Intent, p: KProperty<*>): Array<CharSequence?>? {
+        return thisRef.getCharSequenceArrayExtra(p.name)
+    }
+
+    operator fun setValue(thisRef: Intent, p: KProperty<*>, v: Array<CharSequence?>?) {
         thisRef.putExtra(p.name, v)
     }
 }
@@ -269,6 +289,16 @@ class ExtraParcelableArray<T : Parcelable> {
     }
 }
 
+class ExtraParcelableNullableArray<T : Parcelable?> {
+    operator fun getValue(thisRef: Intent, p: KProperty<*>): Array<T>? {
+        @Suppress("UNCHECKED_CAST")
+        return thisRef.getParcelableArrayExtra(p.name) as Array<T>?
+    }
+
+    operator fun setValue(thisRef: Intent, p: KProperty<*>, v: Array<T>?) {
+        thisRef.putExtra(p.name, v)
+    }
+}
 
 class ExtraParcelableArrayList<T : Parcelable> {
     operator fun getValue(thisRef: Intent, p: KProperty<*>): ArrayList<T>? {
