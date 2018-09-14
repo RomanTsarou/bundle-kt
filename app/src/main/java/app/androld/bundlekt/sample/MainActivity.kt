@@ -19,16 +19,17 @@ package app.androld.bundlekt.sample
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import java.text.DateFormat
+import java.util.*
 
 private const val REQUEST_RESULT = 123
 
 class MainActivity : AppCompatActivity() {
-    private val sharedPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
+    private val repository by lazy { Repository(this) }
     private val editText1 by lazy { findViewById<EditText>(R.id.editText1) }
     private val editText2 by lazy { findViewById<EditText>(R.id.editText2) }
 
@@ -36,15 +37,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
-            editText1.setText(sharedPreferences.savedArg1)
-            editText2.setText(sharedPreferences.savedArg2)
+            editText1.setText(repository.preferences.savedArg1)
+            editText2.setText(repository.preferences.savedArg2)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-        sharedPreferences.savedArg1 = editText1.text.toString()
-        sharedPreferences.savedArg2 = editText2.text.toString()
+        repository.preferences.savedArg1 = editText1.text.toString()
+        repository.preferences.savedArg2 = editText2.text.toString()
     }
 
     fun onClickCalculate(v: View) {
@@ -58,10 +59,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun onClickLastResult(v: View) {
+        Toast.makeText(this, "Last result: ${repository.lastResult}", Toast.LENGTH_LONG).show()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             REQUEST_RESULT -> {
                 if (resultCode == Activity.RESULT_OK && data != null) {
+                    repository.lastResult =
+                            LastResult(data.result, DateFormat.getDateTimeInstance().format(Date()))
                     Toast.makeText(this, "Result: ${data.result}", Toast.LENGTH_SHORT).show()
                 }
             }

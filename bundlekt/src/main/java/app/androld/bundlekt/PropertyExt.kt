@@ -16,6 +16,8 @@
 
 package app.androld.bundlekt
 
+import com.google.gson.Gson
+import java.util.concurrent.atomic.AtomicReference
 import kotlin.reflect.KMutableProperty0
 import kotlin.reflect.KProperty
 
@@ -24,12 +26,39 @@ import kotlin.reflect.KProperty
  */
 
 
-private class PropertyWrapper<T>(private val parent: KMutableProperty0<T>) {
+class PropertyWrapper<T>(private val parent: KMutableProperty0<T>) {
     operator fun getValue(thisRef: Any, p: KProperty<*>): T {
         return parent.get()
     }
 
     operator fun setValue(thisRef: Any, p: KProperty<*>, v: T) {
         parent.set(v)
+    }
+}
+
+class PropertyJsonWrapper<T>(
+    private val parent: KMutableProperty0<String?>,
+    private val clazz: Class<T>,
+    private val gson: Gson,
+    private val observer: ((newValue: T?) -> Unit)? = null
+) {
+    private lateinit var value: AtomicReference<T?>
+    operator fun getValue(thisRef: Any, p: KProperty<*>): T? {
+        if (!::value.isInitialized) {
+            val json = parent.get() ?: ""
+            value = AtomicReference(gson.fromJson(json, clazz))
+        }
+
+        return value.get()
+    }
+
+    operator fun setValue(thisRef: Any, p: KProperty<*>, v: T?) {
+        if (!::value.isInitialized) {
+            value = AtomicReference()
+        }
+        value.set(v)
+        val json = v?.let { gson.toJson(it) }
+        parent.set(json)
+        observer?.invoke(v)
     }
 }

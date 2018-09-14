@@ -16,12 +16,20 @@
 
 package app.androld.bundlekt.sample
 
-import android.content.Intent
+import android.content.Context
 import android.content.SharedPreferences
-import app.androld.bundlekt.ExtraInt
-import app.androld.bundlekt.SharedPreferencesString
+import android.preference.PreferenceManager
+import app.androld.bundlekt.PropertyJsonWrapper
+import com.google.gson.Gson
 
-var Intent.result by ExtraInt()
-var SharedPreferences.savedArg1 by SharedPreferencesString()
-var SharedPreferences.savedArg2 by SharedPreferencesString()
-var SharedPreferences.lastResultJson by SharedPreferencesString()
+/**
+ * Created by Roman Tsarou on 14.09.2018.
+ */
+class Repository(context: Context) {
+    val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+    var lastResult: LastResult? by PropertyJsonWrapper(
+        preferences::lastResultJson,
+        LastResult::class.java,
+        Gson()
+    )
+}

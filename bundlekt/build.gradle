@@ -1,36 +1,3 @@
-plugins {
-    id "com.github.dcendents.android-maven" version "2.1"
-}
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-
-group = 'com.github.RomanTsarou'
-version = '0.0.4'
-
-android {
-    compileSdkVersion 28
-
-    defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 28
-        versionCode 4
-        versionName version
-        archivesBaseName = "bundlekt-$version"
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-}
-
-dependencies {
-    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-}
-
 /*
  * Copyright (c) 2018 Roman Tsarou
  *
@@ -46,6 +13,40 @@ dependencies {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+plugins {
+    id "com.github.dcendents.android-maven" version "2.1"
+}
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+group = 'com.github.RomanTsarou'
+version = '0.0.5'
+
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 28
+        versionCode 5
+        versionName version
+        archivesBaseName = "bundlekt-$version"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    compileOnly 'com.google.code.gson:gson:2.8.5'
+}
 
 // build a jar with source files
 task sourcesJar(type: Jar) {
