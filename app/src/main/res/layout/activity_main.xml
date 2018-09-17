@@ -26,7 +26,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:hint="arg1"
         android:inputType="numberSigned"
         android:maxLength="4"
         android:minWidth="56dp"
@@ -52,7 +51,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:hint="arg2"
         android:inputType="numberSigned"
         android:maxLength="4"
         android:minWidth="56dp"
@@ -65,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onClickCalculate"
-        android:text="Calculate"
+        android:text="Calculate sum"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,6 +74,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onClickLastResult"
-        android:text="Show last result"
+        android:text="Show saved result"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

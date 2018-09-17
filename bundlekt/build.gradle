@@ -4,8 +4,9 @@ plugins {
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
+def build = 7
 group = 'com.github.RomanTsarou'
-version = '0.0.6'
+version = "0.0.$build"
 
 android {
     compileSdkVersion 28
@@ -13,7 +14,7 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 28
-        versionCode 6
+        versionCode build
         versionName version
         archivesBaseName = "bundlekt-$version"
     }

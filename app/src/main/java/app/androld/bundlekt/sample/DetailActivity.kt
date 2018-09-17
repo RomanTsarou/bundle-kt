@@ -41,12 +41,11 @@ class DetailActivity : AppCompatActivity() {
     companion object {
         private var Intent.extra1 by ExtraInt()
         private var Intent.extra2 by ExtraInt()
-        var Intent.result by ExtraInt()
 
-        fun createIntent(context: Context, arg1: Int, arg2: Int) =
+        fun createIntent(context: Context, summand1: Int, summand2: Int) =
             Intent(context, DetailActivity::class.java).apply {
-                extra1 = arg1
-                extra2 = arg2
+                extra1 = summand1
+                extra2 = summand2
             }
     }
 }

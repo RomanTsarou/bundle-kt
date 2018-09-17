@@ -17,6 +17,7 @@
 package app.androld.bundlekt
 
 import com.google.gson.Gson
+import java.lang.reflect.Type
 import java.util.concurrent.atomic.AtomicReference
 import kotlin.reflect.KMutableProperty0
 import kotlin.reflect.KProperty
@@ -36,29 +37,45 @@ class PropertyWrapper<T>(private val parent: KMutableProperty0<T>) {
     }
 }
 
+class LazyPropertyWrapper<T>(initializer: () -> KMutableProperty0<T>) {
+    private val parent: KMutableProperty0<T> by lazy(initializer)
+
+    operator fun getValue(thisRef: Any, p: KProperty<*>): T {
+        return parent.get()
+    }
+
+    operator fun setValue(thisRef: Any, p: KProperty<*>, v: T) {
+        parent.set(v)
+    }
+}
+
+
 class PropertyJsonWrapper<T>(
     private val parent: KMutableProperty0<String?>,
-    private val clazz: Class<T>,
+    private val clazz: Type,
     private val gson: Gson,
     private val observer: ((newValue: T?) -> Unit)? = null
 ) {
     private lateinit var value: AtomicReference<T?>
-    operator fun getValue(thisRef: Any, p: KProperty<*>): T? {
-        if (!::value.isInitialized) {
-            val json = parent.get() ?: ""
-            value = AtomicReference(gson.fromJson(json, clazz))
-        }
+    operator fun getValue(thisRef: Any, p: KProperty<*>): T? =
+        synchronized(this) {
+            if (!::value.isInitialized) {
+                val json = parent.get() ?: ""
+                value = AtomicReference(gson.fromJson(json, clazz))
+            }
 
-        return value.get()
-    }
+            value.get()
+        }
 
     operator fun setValue(thisRef: Any, p: KProperty<*>, v: T?) {
-        if (!::value.isInitialized) {
-            value = AtomicReference()
+        synchronized(this) {
+            if (!::value.isInitialized) {
+                value = AtomicReference()
+            }
+            value.set(v)
+            val json = v?.let { gson.toJson(it) }
+            parent.set(json)
+            observer?.invoke(v)
         }
-        value.set(v)
-        val json = v?.let { gson.toJson(it) }
-        parent.set(json)
-        observer?.invoke(v)
     }
 }

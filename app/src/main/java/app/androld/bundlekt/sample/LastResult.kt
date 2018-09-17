@@ -19,4 +19,4 @@ package app.androld.bundlekt.sample
 /**
  * Demo object for save as json
  */
-data class LastResult(val result: Int, val time: String)
+data class LastResult(val sum: Int, val time: String)
