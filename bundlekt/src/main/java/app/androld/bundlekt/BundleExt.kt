@@ -360,3 +360,18 @@ class ArgBinder {
     }
 }
 
+class ArgEnum<T : Enum<T>>(private val clazz: Class<T>) {
+    operator fun getValue(thisRef: Bundle, p: KProperty<*>): T? {
+        java.lang.Enum.valueOf(clazz, "")
+        return thisRef.getString(p.name)?.let {
+            runCatching { java.lang.Enum.valueOf(clazz, it) }
+                .onFailure { it.printStackTrace() }
+                .getOrNull()
+        }
+    }
+
+    operator fun setValue(thisRef: Bundle, p: KProperty<*>, v: T?) {
+        thisRef.putString(p.name, v?.name)
+    }
+}
+

@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         Log.i("rom", "lastResult: $lastResult")
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         preferences.savedSummand1 = editText1.text.toString()
         preferences.savedSummand2 = editText2.text.toString()
