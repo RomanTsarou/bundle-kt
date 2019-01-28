@@ -335,3 +335,14 @@ class ExtraBundle {
         thisRef.putExtra(p.name, v)
     }
 }
+
+class ExtraEnum<T : Enum<T>>(private val clazz: Class<T>) {
+    operator fun getValue(thisRef: Intent, p: KProperty<*>): T? {
+        return thisRef.getStringExtra(p.name)?.let { Enums.createEnumInstance(it, clazz) }
+    }
+
+    operator fun setValue(thisRef: Intent, p: KProperty<*>, v: T?) {
+        thisRef.putExtra(p.name, v?.name)
+    }
+}
+

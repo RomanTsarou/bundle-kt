@@ -95,6 +95,21 @@ class SharedPreferencesFloat(
     }
 }
 
+class SharedPreferencesEnum<T : Enum<T>>(
+    private val clazz: Class<T>,
+    private val defValue: T? = null,
+    private val key: String? = null
+) {
+    operator fun getValue(thisRef: SharedPreferences, p: KProperty<*>): T? {
+        return thisRef.getString(key ?: p.name, null)?.let { Enums.createEnumInstance(it, clazz) }
+            ?: defValue
+    }
+
+    operator fun setValue(thisRef: SharedPreferences, p: KProperty<*>, v: T?) {
+        thisRef.edit().putString(p.name, v?.name).apply()
+    }
+}
+
 
 
 

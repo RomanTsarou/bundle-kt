@@ -360,3 +360,13 @@ class ArgBinder {
     }
 }
 
+class ArgEnum<T : Enum<T>>(private val clazz: Class<T>) {
+    operator fun getValue(thisRef: Bundle, p: KProperty<*>): T? {
+        return thisRef.getString(p.name)?.let { Enums.createEnumInstance(it, clazz) }
+    }
+
+    operator fun setValue(thisRef: Bundle, p: KProperty<*>, v: T?) {
+        thisRef.putString(p.name, v?.name)
+    }
+}
+
